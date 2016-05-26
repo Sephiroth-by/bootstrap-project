@@ -1,39 +1,7 @@
 ﻿
 window.addEventListener("load", function () {
     document.forms[0].addEventListener("submit", function (f) {
-        var isValid = true;
-
-        var requiredElements = [];
-        var numberElements = [];
-        var emailElements = [];
-
-        var elements = document.getElementsByTagName("*");
-
-        for (var i = 0; i < elements.length; i++) {
-            var elem = elements[i];
-            if (elem.getAttribute("required") == "required") {
-                requiredElements[requiredElements.length] = elem;
-            }
-            if (elem.getAttribute("validator") == "number") {
-                numberElements[numberElements.length] = elem;
-            }
-            if (elem.getAttribute("validator") == "email") {
-                emailElements[emailElements.length] = elem;
-            }
-        }
-
-        for (var i = 0; i < requiredElements.length; i++) {
-            validateText(requiredElements[i]);
-        }
-
-        for (var i = 0; i < numberElements.length; i++) {
-            validateNumber(numberElements[i]);
-        }
-
-        for (var i = 0; i < emailElements.length; i++) {
-            validateEmail(emailElements[i]);
-        }
-
+        
         function validateText(e) {
             if (e.value.length == 0) {
                 e.parentElement.classList.remove("has-success");
@@ -45,7 +13,6 @@ window.addEventListener("load", function () {
                 e.parentElement.classList.add("has-success");
             }
         }
-
 
         function validateNumber(e) {
             if (e.value.length == 0 || isNaN(e.value)) {
@@ -73,8 +40,49 @@ window.addEventListener("load", function () {
             }
         }
 
-        if (!isValid) {
-            f.preventDefault();
+        var isValid = true;
+
+        var elements = this.querySelectorAll("input,select");
+
+        for (var i = 0; i < elements.length; i++) {
+            var elem = elements[i];
+            if (elem.getAttribute("required") == "required") {
+                validateText(elem);
+            }
+            if (elem.getAttribute("validator") == "number") {
+                validateNumber(elem);
+            }
+            if (elem.getAttribute("validator") == "email") {
+                validateEmail(elem);
+            }
+        }
+
+        f.preventDefault();
+
+        if(isValid) {
+            var client = {
+                FirstName: $("[name='firstName']").val(),
+                LastName: $("[name='lastName']").val(),
+                Address: $("[name='address']").val(),
+                City: $("[name='city']").val(),
+                State: $("[name='state']").val(),
+                ZipCode: $("[name='zipCode']").val(),
+                Email: $("[name='email']").val(),
+                PhoneNumber: $("[name='phone']").val(),
+            };
+
+            $.ajax({
+                url: 'http://localhost:10001/api/values',
+                type: 'POST',
+                data: JSON.stringify(client),
+                contentType: "application/json;charset=utf-8",
+                success: function () {
+                    $(".request").html("").text("Success").css({ "background-color": "green", "height": "400px" });
+                },
+                error: function () {
+                    $(".request").html("").text("Error").css({ "background-color": "red", "height": "400px" });
+                }
+            });
         }
     });
 });
