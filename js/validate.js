@@ -3,55 +3,68 @@ window.addEventListener("load", function () {
     document.forms[0].addEventListener("submit", function (f) {
         var isValid = true;
 
-        var firstName = document.getElementsByName("firstName")[0];
-        var lastName = document.getElementsByName("lastName")[0];
-        var address = document.getElementsByName("address")[0];
-        var city = document.getElementsByName("city")[0];
-        var state = document.getElementsByName("state")[0];
-        var zipCode = document.getElementsByName("zipCode")[0];
-        var email = document.getElementsByName("email")[0];
-        var tel = document.getElementsByName("tel")[0];
+        var requiredElements = [];
+        var numberElements = [];
+        var emailElements = [];
 
-        validate(firstName);
-        validate(lastName);
-        validate(address);
-        validate(city);
-        validate(state);
-        validate(zipCode);
-        validate(tel);
+        var elements = document.getElementsByTagName("*");
 
-        if (isNaN(tel.value)) {
-            tel.parentElement.className += " has-error";
-            isValid = false;
-        }
-        else {
-            tel.parentElement.className += " has-success";
+        for (var i = 0; i < elements.length; i++) {
+            var elem = elements[i];
+            if (elem.getAttribute("required") == "required") {
+                requiredElements[requiredElements.length] = elem;
+            }
+            if (elem.getAttribute("validator") == "number") {
+                numberElements[numberElements.length] = elem;
+            }
+            if (elem.getAttribute("validator") == "email") {
+                emailElements[emailElements.length] = elem;
+            }
         }
 
-        if (isNaN(zipCode.value)) {
-            zipCode.parentElement.className += " has-error";
-            isValid = false;
-        }
-        else {
-            zipCode.parentElement.className += " has-success";
+        for (var i = 0; i < requiredElements.length; i++) {
+            validateText(requiredElements[i]);
         }
 
-        var emailPattern = /\b[a-z0-9._]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i;
-        var checkEmail = email.value.search(emailPattern);
-        if (checkEmail == -1) {
-            email.parentElement.classList.remove("has-success");
-            email.parentElement.classList.add("has-error");
-            isValid = false;
-        }
-        else {
-            email.parentElement.classList.remove("has-error");
-            email.parentElement.classList.add("has-success");
+        for (var i = 0; i < numberElements.length; i++) {
+            validateNumber(numberElements[i]);
         }
 
-        function validate(e) {
+        for (var i = 0; i < emailElements.length; i++) {
+            validateEmail(emailElements[i]);
+        }
+
+        function validateText(e) {
             if (e.value.length == 0) {
                 e.parentElement.classList.remove("has-success");
-                e.parentElement.classList.add("has-error"); 
+                e.parentElement.classList.add("has-error");
+                isValid = false;
+            }
+            else {
+                e.parentElement.classList.remove("has-error");
+                e.parentElement.classList.add("has-success");
+            }
+        }
+
+
+        function validateNumber(e) {
+            if (e.value.length == 0 || isNaN(e.value)) {
+                e.parentElement.classList.remove("has-success");
+                e.parentElement.classList.add("has-error");
+                isValid = false;
+            }
+            else {
+                e.parentElement.classList.remove("has-error");
+                e.parentElement.classList.add("has-success");
+            }
+        }
+
+        function validateEmail(e) {
+            var emailPattern = /\b[a-z0-9._]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i;
+            var checkEmail = e.value.search(emailPattern);
+            if (checkEmail == -1) {
+                e.parentElement.classList.remove("has-success");
+                e.parentElement.classList.add("has-error");
                 isValid = false;
             }
             else {

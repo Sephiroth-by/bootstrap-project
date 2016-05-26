@@ -59,12 +59,12 @@ em{
     height: auto;
 }
 
-ul li {
+.custom-ul li {
     list-style: none; 
     text-indent: -40px;
 }
 
-    ul li:before {
+    .custom-ul li:before {
         color: #01a4e4; 
         content: "\2022"; 
         font-size: 1.5em; 
