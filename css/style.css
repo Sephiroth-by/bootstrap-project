@@ -1,47 +1,90 @@
-html {
-  position: relative;
-  min-height: 100%;
+﻿html {
+    position: relative;
+    min-height: 100%;
 }
 
-.logo{
-    margin-top:20px;
-    margin-bottom:20px;
+body {
+    font-family: Futura,"Trebuchet MS",Arial,sans-serif;
 }
 
-.header-image{
+.logo {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.header-text {
+    font-size: 16px;
+}
+
+.header-phone {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.text-blue {
+    color: #01a4e4;
+}
+
+.header-image {
     width: 100%;
     height: auto;
 }
 
-.form-footer{
-    margin:10px auto 20px;
+ul li {
+    list-style: none; 
+    text-indent: -40px;
+}
+
+    ul li:before {
+        color: #01a4e4; 
+        content: "\2022"; 
+        font-size: 1.5em; 
+        padding-right: .25em; 
+    }
+
+.form-footer {
+    margin: 10px auto 20px;
+}
+
+.btn-submit {
+    background-color: #e36f1e;
+    color: white;
 }
 
 .footer {
-  width: 100%;
-  background-color: #e6e7e8;
-  margin-top:20px;
-  padding-bottom:20px;
+    background-color: #e6e7e8;
+    margin-top: 20px;
+    padding-bottom: 20px;
 }
 
 
 .container .text-muted {
-  margin: 20px 0;
+    margin: 20px 0;
 }
 
 @media (max-width: 767px) {
-    .request{
-    background-color:#f5f5f5;
-}
+    .request {
+        background-color: #f5f5f5;
+    }
+
+    /*.crop {
+        float: left;
+        overflow: hidden;
+        position: relative;
+        width:700px;
+        height:225px;
+    }
+
+    .crop img {
+        position: absolute;
+        left: -260px;
+    }*/
 }
 
 @media (min-width: 768px) {
-    .request{
-    border: 1px solid grey;
-    margin-top:-100px;
-    background-color:white;
+    .request {
+        border: 1px solid grey;
+        margin-top: -100px;
+        background-color: white;
+    }
 }
-}
-
-
-
